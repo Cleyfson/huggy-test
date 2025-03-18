@@ -8,14 +8,17 @@ services:
     container_name: laravel_app
     restart: unless-stopped
     working_dir: /var/www
-    # volumes:
-    #   - ./api:/var/www
+    volumes:
+      - ./api:/var/www
+      - /var/www/vendor 
     networks:
       - laravel
+    ports:
+      - "8000:8000"
     command: >
       sh -c "chmod -R 775 storage bootstrap/cache &&
             chown -R www-data:www-data storage bootstrap/cache &&
-            php-fpm"
+            php artisan serve --host=0.0.0.0 --port=8000"  # Usando o servidor embutido do Laravel
 
   db:
     image: mysql:5.7
@@ -33,18 +36,6 @@ services:
     networks:
       - laravel
 
-  webserver:
-    image: nginx:alpine
-    container_name: laravel_webserver
-    restart: unless-stopped
-    ports:
-      - "8000:80"
-    volumes:
-      - ./api:/var/www
-      - ./api/docker/nginx:/etc/nginx/conf.d
-    networks:
-      - laravel
-
   frontend:
     build:
       context: ./frontend
@@ -52,8 +43,9 @@ services:
     container_name: vue_frontend
     restart: unless-stopped
     working_dir: /app
-    # volumes:
-    #   - ./frontend:/app
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     ports:
       - "5173:5173"
     networks:
