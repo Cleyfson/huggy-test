@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ClientController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,4 +26,8 @@ Route::prefix('auth')->group(function () {
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
         Route::post('me', [AuthController::class, 'me'])->name('auth.me');
     });
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/clients', [ClientController::class, 'store']);
 });

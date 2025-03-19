@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
         $this->app->bind(HuggyService::class, function ($app) {
             return new HuggyService(
                 new Client(),
