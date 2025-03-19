@@ -29,6 +29,11 @@ class ClientRepositoryMock implements ClientRepositoryInterface
         return;
     }
 
+    public function findAll(): array
+    {
+        return array_values($this->clients);
+    }
+
     public function delete(int $id): void
     {
         unset($this->clients[$id]);
