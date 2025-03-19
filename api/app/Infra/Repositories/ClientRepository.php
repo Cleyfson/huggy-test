@@ -79,4 +79,9 @@ class ClientRepository implements ClientRepositoryInterface
                 ]
             );
     }
+
+    public function delete(int $id): void
+    {
+        DB::table('clients')->where('id', $id)->delete();
+    }
 }

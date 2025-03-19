@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Application\UseCases\Client\ClientUpdateUseCase;
+use App\Application\UseCases\Client\ClientDeleteUseCase;
 
 use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class ClientController extends Controller
@@ -15,9 +18,10 @@ class ClientController extends Controller
     public function __construct(
         private ClientRegisterUseCase $register,
         private ClientUpdateUseCase $update,
+        private ClientDeleteUseCase $delete
     ) {}
 
-    public function store(ClientStoreRequest $request)
+    public function store(ClientStoreRequest $request): JsonResponse
     {
         try {
             $client = $this->register->execute($request->validated());
@@ -39,7 +43,7 @@ class ClientController extends Controller
         }
     }
 
-    public function update(ClientUpdateRequest $request, int $id)
+    public function update(ClientUpdateRequest $request, int $id): JsonResponse
     {
         try {
       
@@ -54,6 +58,23 @@ class ClientController extends Controller
                     'email' => $client->getEmail(),
                 ]
             ], 201);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $this->delete->execute($id);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Cliente deletado com sucesso'
+            ], 200);
         } catch (Throwable $e) {
             return response()->json([
                 'status' => 'error',

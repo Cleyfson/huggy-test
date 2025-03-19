@@ -9,4 +9,5 @@ interface ClientRepositoryInterface
     public function create(Client $client): Client;
     public function findById(int $id): ?Client;
     public function update(Client $client): void;
+    public function delete(int $id): void;
 }
