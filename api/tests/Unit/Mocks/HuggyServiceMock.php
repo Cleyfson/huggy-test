@@ -34,12 +34,21 @@ class HuggyServiceMock extends HuggyService
         ];
     }
 
-    public function updateContact(string $huggyId, array $data): array
+    public function updateContact(string $huggyId, array $data): void
     {
         if ($huggyId !== '106210365') {
             throw new Exception("Huggy contact not found");
         }
 
-        return array_merge(['id' => $huggyId], $data);
+        return;
+    }
+
+    public function deleteContact(string $huggyId): void
+    {
+        if ($huggyId !== '106210365') {
+            throw new Exception("Huggy contact not found");
+        }
+
+        return;
     }
 }
