@@ -54,4 +54,18 @@ class HuggyService
             throw new HuggyApiException('Failed to create contact in Huggy API: ' . $e->getMessage());
         }
     }
+
+    public function updateContact(string $huggyId, array $data): array
+    {
+        try {
+            $response = $this->client->put($this->apiUrl . '/contacts/' . $huggyId, [
+                'headers' => $this->getHeaders(),
+                'json' => $data,
+            ]);
+            
+            return json_decode($response->getBody(), true);
+        } catch (GuzzleException $e) {
+            throw new HuggyApiException('Failed to update contact in Huggy API: ' . $e->getMessage());
+        }
+    }
 }
