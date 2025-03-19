@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Application\UseCases\Client\ClientUpdateUseCase;
 use App\Application\UseCases\Client\ClientDeleteUseCase;
+use App\Application\UseCases\Client\ClientShowUseCase;
 
 use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
@@ -18,7 +19,8 @@ class ClientController extends Controller
     public function __construct(
         private ClientRegisterUseCase $register,
         private ClientUpdateUseCase $update,
-        private ClientDeleteUseCase $delete
+        private ClientDeleteUseCase $delete,
+        private ClientShowUseCase $show,
     ) {}
 
     public function store(ClientStoreRequest $request): JsonResponse
@@ -35,6 +37,32 @@ class ClientController extends Controller
                     'email' => $client->getEmail(),
                 ]
             ], 201);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function show($id)
+    {
+        try {
+            $client = $this->show->execute($id);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'name' => $client->getName(),
+                    'email' => $client->getEmail(),
+                    'phone' => $client->getPhone(),
+                    'mobile' => $client->getMobile(),
+                    'address' => $client->getAddress(),
+                    'state' => $client->getState(),
+                    'district' => $client->getDistrict(),
+                    'photo' => $client->getPhoto(),
+                ], 
+            ], 200); 
         } catch (Throwable $e) {
             return response()->json([
                 'status' => 'error',
