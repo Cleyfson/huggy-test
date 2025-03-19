@@ -5,12 +5,14 @@ namespace App\Application\UseCases\Client;
 use App\Domain\Entities\Client;
 use App\Domain\Repositories\ClientRepositoryInterface;
 use App\Infra\Services\HuggyService;
+use App\Infra\Services\SendEmailService;
 
 class ClientRegisterUseCase
 {
     public function __construct(
         private ClientRepositoryInterface $repository,
         private HuggyService $huggyService,
+        private SendEmailService $emailService
     ) {}
    
     public function execute(array $data): Client
@@ -41,6 +43,16 @@ class ClientRegisterUseCase
             ->setBirthDate($response[0]['birthDate'])
             ->setLastSeen($response[0]['lastSeen'])
             ->setStatus($response[0]['status']);
+
+        $this->emailService->send(
+            to: $client->getEmail(),
+            template: 'welcome_email',
+            data: [
+                'name' => $client->getName(),
+                'subject' => 'Bem-vindo ao nosso serviço!',
+            ],
+            delayMinutes: 30
+        );
 
         return $this->repository->create($client);
     }
