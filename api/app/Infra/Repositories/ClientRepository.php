@@ -80,6 +80,34 @@ class ClientRepository implements ClientRepositoryInterface
             );
     }
 
+    public function findAll(): array
+    {
+        $clients = DB::table('clients')->get();
+
+        if ($clients->isEmpty()) {
+            return [];
+        }
+
+        return $clients->map(function ($data) {
+            return (new Client())
+                ->setId($data->id)
+                ->setHuggyId($data->huggy_id)
+                ->setName($data->name)
+                ->setEmail($data->email)
+                ->setPhone($data->phone)
+                ->setMobile($data->mobile)
+                ->setAddress($data->address)
+                ->setState($data->state)
+                ->setDistrict($data->district)
+                ->setCity($data->city)
+                ->setZipCode($data->zip_code)
+                ->setPhoto($data->photo)
+                ->setBirthDate($data->birth_date)
+                ->setLastSeen($data->last_seen)
+                ->setStatus($data->status);
+        })->toArray();
+    }
+
     public function delete(int $id): void
     {
         DB::table('clients')->where('id', $id)->delete();

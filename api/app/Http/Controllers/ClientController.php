@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Application\UseCases\Client\ClientUpdateUseCase;
 use App\Application\UseCases\Client\ClientDeleteUseCase;
+use App\Application\UseCases\Client\ClientIndexUseCase;
 use App\Application\UseCases\Client\ClientShowUseCase;
 
 use App\Http\Requests\ClientStoreRequest;
@@ -20,8 +21,42 @@ class ClientController extends Controller
         private ClientRegisterUseCase $register,
         private ClientUpdateUseCase $update,
         private ClientDeleteUseCase $delete,
+        private ClientIndexUseCase $index,
         private ClientShowUseCase $show,
     ) {}
+
+    public function index()
+    {
+        try {
+            $clients = $this->index->execute();
+
+            $clientData = array_map(function ($client) {
+                return [
+                    'id' => $client->getId(),
+                    'name' => $client->getName(),
+                    'email' => $client->getEmail(),
+                    'phone' => $client->getPhone(),
+                    'mobile' => $client->getMobile(),
+                    'address' => $client->getAddress(),
+                    'state' => $client->getState(),
+                    'district' => $client->getDistrict(),
+                    'photo' => $client->getPhoto(),
+                    'last_seen' => $client->getLastSeen(),
+                    'status' => $client->getStatus(),
+                ];
+            }, $clients);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $clientData,
+            ], 200); 
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
     public function store(ClientStoreRequest $request): JsonResponse
     {
