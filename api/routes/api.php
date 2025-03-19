@@ -30,4 +30,5 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/clients', [ClientController::class, 'store']);
+    Route::put('/clients/{id}', [ClientController::class, 'update']);
 });

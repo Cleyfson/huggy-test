@@ -29,4 +29,54 @@ class ClientRepository implements ClientRepositoryInterface
 
         return $client->setId($clientId);
     }
+
+    public function findById(int $id): ?Client
+    {
+        $data = DB::table('clients')->find($id);
+    
+        if (!$data) {
+            return null;
+        }
+    
+        return (new Client())
+            ->setId($data->id)
+            ->setHuggyId($data->huggy_id)
+            ->setName($data->name)
+            ->setEmail($data->email)
+            ->setPhone($data->phone)
+            ->setMobile($data->mobile)
+            ->setAddress($data->address)
+            ->setState($data->state)
+            ->setDistrict($data->district)
+            ->setCity($data->city)
+            ->setZipCode($data->zip_code)
+            ->setPhoto($data->photo)
+            ->setBirthDate($data->birth_date)
+            ->setLastSeen($data->last_seen)
+            ->setStatus($data->status);
+    }
+
+    public function update(Client $client): void
+    {
+        DB::table('clients')
+            ->updateOrInsert(
+                ['id' => $client->getId()],
+                [
+                    'huggy_id'   => $client->getHuggyId(),
+                    'name'       => $client->getName(),
+                    'email'      => $client->getEmail(),
+                    'phone'      => $client->getPhone(),
+                    'mobile'     => $client->getMobile(),
+                    'address'    => $client->getAddress(),
+                    'state'      => $client->getState(),
+                    'district'   => $client->getDistrict(),
+                    'city'       => $client->getCity(),
+                    'zip_code'   => $client->getZipCode(),
+                    'photo'      => $client->getPhoto(),
+                    'birth_date' => $client->getBirthDate(),
+                    'last_seen'  => $client->getLastSeen(),
+                    'status'     => $client->getStatus(),
+                ]
+            );
+    }
 }
