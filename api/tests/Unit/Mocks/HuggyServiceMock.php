@@ -51,4 +51,25 @@ class HuggyServiceMock extends HuggyService
 
         return;
     }
+
+    public function getContact(string $huggyId): array
+    {
+        if ($huggyId !== '106210365') {
+            throw new \Exception("Huggy contact not found");
+        }
+    
+        return [
+            'id' => '106210365',
+            'name' => 'Jane Doe',
+            'email' => 'janedoe@example.com',
+            'phone' => '1234567890',
+            'mobile' => '9876543210',
+            'address' => '123 Main St',
+            'state' => 'SP',
+            'district' => 'Centro',
+            'photo' => 'https://c.pzw.io/img/avatar-user-boy.jpg',
+            'lastSeen' => '2025-03-18 20:47:26',
+            'status' => 1,
+        ];
+    }
 }
