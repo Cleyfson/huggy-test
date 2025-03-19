@@ -10,22 +10,23 @@ class ClientRepositoryMock implements ClientRepositoryInterface
 
     public function create(Client $client): Client
     {
-        $client->id = count($this->clients) + 1;
-        $this->clients[$client->id] = $client;
+        $client->setId(count($this->clients) + 1);
+        $this->clients[$client->getId()] = $client;
         return $client;
     }
 
-    public function find(int $id): ?Client
+    public function findById(int $id): ?Client
     {
         return $this->clients[$id] ?? null;
     }
 
-    public function update(Client $client): Client
+    public function update(Client $client): void
     {
-        if (isset($this->clients[$client->id])) {
-            $this->clients[$client->id] = $client;
+        if (isset($this->clients[$client->getId()])) {
+            $this->clients[$client->getId()] = $client;
         }
-        return $client;
+       
+        return;
     }
 
     public function delete(int $id): void
