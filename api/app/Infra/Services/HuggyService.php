@@ -71,7 +71,7 @@ class HuggyService
     public function deleteContact(string $huggyId): void
     {
         try {
-            $response = $this->client->delete($this->apiUrl . "/contacts/{$huggyId}", [
+            $response = $this->client->delete($this->apiUrl . '/contacts/' . $huggyId, [
                 'headers' => $this->getHeaders(),
             ]);
 
@@ -80,4 +80,16 @@ class HuggyService
         }
     }
 
+    public function getContact(string $huggyId): array
+    {
+        try {
+            $response = $this->client->get($this->apiUrl . '/contacts/' . $huggyId, [
+                'headers' => $this->getHeaders(),
+            ]);
+
+            return json_decode($response->getBody(), true);
+        } catch (\Exception $e) {
+            throw new HuggyApiException("Error fetching Huggy contact: " . $e->getMessage());
+        }
+    }
 }
