@@ -24,11 +24,11 @@ class ClientRegisterUseCaseTest extends TestCase
 
         $useCase = new ClientRegisterUseCase(new ClientRepositoryMock(), new HuggyServiceMock());
 
-        $result = $useCase->execute($inputData);
+        $client = $useCase->execute($inputData);
 
-        $this->assertInstanceOf(Client::class, $result);
-        $this->assertEquals('Jane Doe', $result->name);
-        $this->assertEquals('janedoe@example.com', $result->email);
-        $this->assertEquals('106210365', $result->huggy_id);
+        $this->assertInstanceOf(Client::class, $client);
+        $this->assertEquals('Jane Doe', $client->getName());
+        $this->assertEquals('janedoe@example.com', $client->getEmail());
+        $this->assertEquals('106210365', $client->getHuggyId());
     }
 }
