@@ -55,17 +55,29 @@ class HuggyService
         }
     }
 
-    public function updateContact(string $huggyId, array $data): array
+    public function updateContact(string $huggyId, array $data): void
     {
         try {
             $response = $this->client->put($this->apiUrl . '/contacts/' . $huggyId, [
                 'headers' => $this->getHeaders(),
                 'json' => $data,
             ]);
-            
-            return json_decode($response->getBody(), true);
+
         } catch (GuzzleException $e) {
             throw new HuggyApiException('Failed to update contact in Huggy API: ' . $e->getMessage());
         }
     }
+
+    public function deleteContact(string $huggyId): void
+    {
+        try {
+            $response = $this->client->delete($this->apiUrl . "/contacts/{$huggyId}", [
+                'headers' => $this->getHeaders(),
+            ]);
+
+        } catch (GuzzleException $e) {
+            throw new HuggyApiException('Failed to delete contact in Huggy API: ' . $e->getMessage());
+        }
+    }
+
 }
