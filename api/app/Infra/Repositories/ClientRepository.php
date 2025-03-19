@@ -11,24 +11,22 @@ class ClientRepository implements ClientRepositoryInterface
     public function create(Client $client): Client
     {
         $clientId = DB::table('clients')->insertGetId([
-            'huggy_id' => $client->name,
-            'name' => $client->name,
-            'email' => $client->email,
-            'phone' => $client->phone,
-            'mobile' => $client->mobile,
-            'address' => $client->address,
-            'state' => $client->state,
-            'district' => $client->district,
-            'city' => $client->city,
-            'zip_code' => $client->zip_code,
-            'photo' => $client->photo,
-            'birth_date' => $client->birth_date,
-            'last_seen' => $client->last_seen,
-            'status' => $client->status
+            'huggy_id'   => $client->getHuggyId(),
+            'name'       => $client->getName(),
+            'email'      => $client->getEmail(),
+            'phone'      => $client->getPhone(),
+            'mobile'     => $client->getMobile(),
+            'address'    => $client->getAddress(),
+            'state'      => $client->getState(),
+            'district'   => $client->getDistrict(),
+            'city'       => $client->getCity(),
+            'zip_code'   => $client->getZipCode(),
+            'photo'      => $client->getPhoto(),
+            'birth_date' => $client->getBirthDate(),
+            'last_seen'  => $client->getLastSeen(),
+            'status'     => $client->getStatus(),
         ]);
 
-        $client->id = $clientId;
-
-        return $client;
+        return $client->setId($clientId);
     }
 }

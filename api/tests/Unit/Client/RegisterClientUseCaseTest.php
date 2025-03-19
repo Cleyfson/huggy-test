@@ -3,12 +3,12 @@
 namespace Tests\Unit\Application\UseCases\Client;
 
 use PHPUnit\Framework\TestCase;
-use App\Application\UseCases\Client\RegisterClientUseCase;
+use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Domain\Entities\Client;
 use Tests\Unit\Mocks\ClientRepositoryMock;
 use Tests\Unit\Mocks\HuggyServiceMock;
 
-class RegisterClientUseCaseTest extends TestCase
+class ClientRegisterUseCaseTest extends TestCase
 {
     public function test_execute_creates_client_successfully()
     {
@@ -22,7 +22,7 @@ class RegisterClientUseCaseTest extends TestCase
             'district' => 'Centro',
         ];
 
-        $useCase = new RegisterClientUseCase(new ClientRepositoryMock(), new HuggyServiceMock());
+        $useCase = new ClientRegisterUseCase(new ClientRepositoryMock(), new HuggyServiceMock());
 
         $result = $useCase->execute($inputData);
 
