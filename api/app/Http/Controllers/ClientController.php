@@ -6,6 +6,7 @@ use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Application\UseCases\Client\ClientUpdateUseCase;
 
 use App\Http\Requests\ClientStoreRequest;
+use App\Http\Requests\ClientUpdateRequest;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -38,20 +39,11 @@ class ClientController extends Controller
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(ClientUpdateRequest $request, int $id)
     {
         try {
-            $data = $request->validate([
-                'name' => 'required|string',
-                'email' => 'required|email',
-                'phone' => 'nullable|string',
-                'mobile' => 'nullable|string',
-                'address' => 'nullable|string',
-                'state' => 'nullable|string',
-                'district' => 'nullable|string',
-            ]);
-    
-            $client = $this->update->execute($id, $data);
+      
+            $client = $this->update->execute($id, $request->validated());
 
             return response()->json([
                 'status' => 'success',

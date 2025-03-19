@@ -21,7 +21,7 @@ class ClientUpdateUseCase
         if (!$client) {
             throw new ClientNotFoundException("Client with ID $id not found.");
         }
-
+    
         $huggyData = [
             'name' => $data['name'] ?? $client->getName(),
             'email' => $data['email'] ?? $client->getEmail(),
@@ -32,15 +32,15 @@ class ClientUpdateUseCase
             'district' => $data['district'] ?? $client->getDistrict()
         ];
 
-        // $this->huggyService->updateContact($client->getHuggyId(), $huggyData);
+        $this->huggyService->updateContact($client->getHuggyId(), $huggyData);
 
         $client->setName($huggyData['name']);
         $client->setEmail($huggyData['email']);
         $client->setPhone($huggyData['phone']);
         $client->setMobile($huggyData['mobile']);
         $client->setAddress($huggyData['address']);
-        $client->setState($huggyData['address']);
-        $client->setDistrict($huggyData['address']);
+        $client->setState($huggyData['state']);
+        $client->setDistrict($huggyData['district']);
 
         $this->repository->update($client);
 
