@@ -34,4 +34,5 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/clients/{id}', [ClientController::class, 'update']);
     Route::delete('/clients/{id}', [ClientController::class, 'destroy']);
     Route::get('/clients/{id}', [ClientController::class, 'show']);
+    Route::post('/clients/{id}/call', [ClientController::class, 'call']);
 });

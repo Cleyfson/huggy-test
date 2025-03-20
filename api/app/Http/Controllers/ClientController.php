@@ -7,6 +7,7 @@ use App\Application\UseCases\Client\ClientUpdateUseCase;
 use App\Application\UseCases\Client\ClientDeleteUseCase;
 use App\Application\UseCases\Client\ClientIndexUseCase;
 use App\Application\UseCases\Client\ClientShowUseCase;
+use App\Application\UseCases\Client\ClientCallUseCase;
 
 use App\Http\Requests\ClientStoreRequest;
 use App\Http\Requests\ClientUpdateRequest;
@@ -23,6 +24,7 @@ class ClientController extends Controller
         private ClientDeleteUseCase $delete,
         private ClientIndexUseCase $index,
         private ClientShowUseCase $show,
+        private ClientCallUseCase $call,
     ) {}
 
     public function index()
@@ -145,4 +147,20 @@ class ClientController extends Controller
             ], 500);
         }
     }
+
+    public function call(int $id)
+    {
+        try {
+            $callDetails = $this->call->execute($id);
+            return response()->json([
+                'message' => 'Chamada realizada com sucesso!',
+                'data' => $callDetails
+            ], 200);
+        } catch (Throwable $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }    
 }
