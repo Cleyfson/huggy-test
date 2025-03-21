@@ -2,7 +2,7 @@
   <div class="fixed inset-0 bg-gray-500/30 flex items-center justify-center p-4 z-50">
     <div class="bg-white rounded-lg shadow-xl max-w-xl w-full">
       <div class="flex justify-between items-center mb-2 px-5 pt-5">
-        <h2 class="text-xl font-medium text-gray-800">Adicionar contato</h2>
+        <h2 class="text-xl font-medium text-gray-800">{{ contact ? 'Editar Contato' : 'Adicionar Contato' }}</h2>
         <button @click="$emit('remove')" class="text-gray-400 hover:text-gray-500">
           <XIcon class="h-5 w-5" />
         </button>
@@ -23,6 +23,7 @@
               placeholder="Nome"
               class="w-84 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               :class="{ 'border-red-500': errors.name }"
+              :value="contact?.name"
             />
             <div>
               <ErrorMessage name="name" class="text-red-500 text-xs mt-1" />
@@ -37,6 +38,7 @@
               placeholder="Email"
               class="w-84 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               :class="{ 'border-red-500': errors.email }"
+              :value="contact?.email"
             />
             <div>
               <ErrorMessage name="email" class="text-red-500 text-xs mt-1" />
@@ -51,6 +53,7 @@
               placeholder="Telefone"
               class="w-54 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               :class="{ 'border-red-500': errors.phone }"
+              :value="contact?.phone"
             />
             <div>
               <ErrorMessage name="phone" class="text-red-500 text-xs mt-1" />
@@ -65,6 +68,7 @@
               placeholder="Celular"
               class="w-54 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               :class="{ 'border-red-500': errors.mobile }"
+              :value="contact?.mobile"
             />
             <div>
               <ErrorMessage name="mobile" class="text-red-500 text-xs mt-1" />
@@ -79,6 +83,7 @@
               placeholder="Endereço"
               class="w-110 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               :class="{ 'border-red-500': errors.address }"
+              :value="contact?.address"
             />
             <div>
               <ErrorMessage name="address" class="text-red-500 text-xs mt-1" />
@@ -94,6 +99,7 @@
                 placeholder="Bairro"
                 class="w-54 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 :class="{ 'border-red-500': errors.district }"
+                :value="contact?.district"
               />
               <div>
                 <ErrorMessage name="district" class="text-red-500 text-xs mt-1" />
@@ -108,6 +114,7 @@
                 placeholder="Estado"
                 class="w-34 px-3 py-1 border border-gray-300 rounded-md bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 :class="{ 'border-red-500': errors.state }"
+                :value="contact?.state"
               />
               <div>
                 <ErrorMessage name="state" class="text-red-500 text-xs mt-1" />
@@ -143,31 +150,38 @@
 </template>
 
 <script setup>
-import { XIcon } from 'lucide-vue-next'
-import { useClientStore } from '@/stores/client'
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as yup from 'yup'
+  import { XIcon } from 'lucide-vue-next'
+  import { useClientStore } from '@/stores/client'
+  import { Form, Field, ErrorMessage } from 'vee-validate'
+  import * as yup from 'yup'
 
-const emit = defineEmits(['remove'])
-const clientStore = useClientStore()
+  const emit = defineEmits(['remove'])
+  const clientStore = useClientStore()
 
-const schema = yup.object({
-  name: yup.string().required('Nome é obrigatório'),
-  email: yup.string().required('Email é obrigatório').email('Email inválido'),
-  phone: yup.string().required('Telefone é obrigatório'),
-  mobile: yup.string().required('Celular é obrigatório'),
-  address: yup.string().required('Endereço é obrigatório'),
-  district: yup.string().required('Bairro é obrigatório'),
-  state: yup.string().required('Estado é obrigatório')
-})
+  const schema = yup.object({
+    name: yup.string().required('Nome é obrigatório'),
+    email: yup.string().required('Email é obrigatório').email('Email inválido'),
+    phone: yup.string().required('Telefone é obrigatório'),
+    mobile: yup.string().required('Celular é obrigatório'),
+    address: yup.string().required('Endereço é obrigatório'),
+    district: yup.string().required('Bairro é obrigatório'),
+    state: yup.string().required('Estado é obrigatório')
+  })
 
-const onSubmit = async (values) => {
-  try {
-    await clientStore.createClient(values)
-    emit('remove')
-  } catch (error) {
-    console.error('Erro ao adicionar contato', error)
+  const props = defineProps({
+    contact: Object
+  })
+
+  const onSubmit = async (values) => {
+    try {
+      if (props.contact) {
+        await clientStore.updateClient(props.contact.id, values)
+      } else {
+        await clientStore.createClient(values)
+      }
+      emit('remove')
+    } catch (error) {
+      console.error('Erro ao salvar contato', error)
+    }
   }
-}
 </script>
-

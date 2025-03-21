@@ -22,13 +22,13 @@
 </template>
 <script setup>
   import { computed, defineProps, defineEmits } from 'vue'
-  import { SearchIcon, SlidersIcon, PlusIcon } from 'lucide-vue-next'
+  import { SearchIcon, PlusIcon } from 'lucide-vue-next'
   import Report from '@/assets/svg/report.svg';
 
   const props = defineProps(['modelValue'])
   const emit = defineEmits(['update:modelValue', 'add'])
   const search = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
   })
 </script>
