@@ -15,7 +15,7 @@
         Adicionar contato
       </button>
       <button class="p-2 text-gray-500 hover:text-gray-700">
-        <SlidersIcon class="h-5 w-5" />
+        <img :src="Report" alt="report">
       </button>
     </div>
   </div>
@@ -23,6 +23,8 @@
 <script setup>
   import { computed, defineProps, defineEmits } from 'vue'
   import { SearchIcon, SlidersIcon, PlusIcon } from 'lucide-vue-next'
+  import Report from '@/assets/svg/report.svg';
+
   const props = defineProps(['modelValue'])
   const emit = defineEmits(['update:modelValue', 'add'])
   const search = computed({
