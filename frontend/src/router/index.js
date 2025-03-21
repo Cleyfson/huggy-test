@@ -9,6 +9,13 @@ const router = createRouter({
       component: () => import('../views/ContactView.vue'),
     },
   ],
+  routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+  ],
 })
 
 export default router

@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth';
 
 export function useApi() {
   const api = axios.create({
@@ -9,8 +9,8 @@ export function useApi() {
 
   api.interceptors.request.use(
     (config) => {
-      // const userStore = useUserStore();
-      const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NDI1MTcyMDIsImV4cCI6MTc0MjUyMDgwMiwibmJmIjoxNzQyNTE3MjAyLCJqdGkiOiJHRnVQSWJNZ0dQaTkzT1JiIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.hga_YWebaIwIGFJpPDiL4pNJ1zY37VokbcpsOP0x9Y4';
+      const authStore = useAuthStore();
+      const token = authStore.token;
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
