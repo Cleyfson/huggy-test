@@ -90,6 +90,7 @@ class ClientController extends Controller
             return response()->json([
                 'status' => 'success',
                 'data' => [
+                    'id' => $client->getId(),
                     'name' => $client->getName(),
                     'email' => $client->getEmail(),
                     'phone' => $client->getPhone(),
