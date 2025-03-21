@@ -28,7 +28,7 @@ export const useClientStore = defineStore('clients', {
       const { api } = useApi();
       try {
         const response = await api.get(`clients/${id}`);
-        return response.data;
+        return response.data.data;
       } catch (error) {
         console.error('Erro ao buscar cliente:', error);
         return null;
