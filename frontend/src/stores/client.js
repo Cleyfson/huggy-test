@@ -1,83 +1,94 @@
 import { defineStore } from 'pinia';
 import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
 
 export const useClientStore = defineStore('clients', {
   state: () => ({
     clients: [],
-    loading: false,
-    error: null,
   }),
 
   actions: {
     async fetchClients() {
       const { api } = useApi();
-      this.loading = true;
-      this.error = null;
+      const { notifyError } = useToast();
+      
       try {
         const response = await api.get('clients');
         this.clients = response.data.data;
       } catch (error) {
-        this.error = 'Erro ao buscar clientes';
-        console.error(this.error, error);
-      } finally {
-        this.loading = false;
+        notifyError('Erro ao buscar clientes:', error.response?.data?.message || error);
       }
     },
 
     async fetchClient(id) {
       const { api } = useApi();
+      const { notifyError } = useToast();
+
       try {
         const response = await api.get(`clients/${id}`);
         return response.data.data;
       } catch (error) {
-        console.error('Erro ao buscar cliente:', error);
-        return null;
+        notifyError('Erro ao buscar cliente:', error.response?.data?.message || error);
       }
     },
 
     async createClient(clientData) {
       const { api } = useApi();
+      const { notifyError, notifySuccess } = useToast();
+
       try {
         const response = await api.post('clients', clientData);
-        this.clients.push(response.data);
+        this.fetchClients();
+        notifySuccess('Contato criado com sucesso');
         return response.data;
       } catch (error) {
-        console.error('Erro ao criar cliente:', error);
-        throw error;
+        notifyError('Erro ao criar cliente:', error.response?.data?.message || error);
+        throw error.response?.data?.message || error;
       }
     },
 
     async updateClient(id, clientData) {
       const { api } = useApi();
+      const { notifyError, notifySuccess } = useToast();
+
       try {
         await api.put(`clients/${id}`, clientData);
         this.clients = this.clients.map(client => 
           client.id === id ? { ...client, ...clientData } : client
         );
+        this.fetchClient();
+        this.fetchClients();
+        notifySuccess('Contato atualizado com sucesso');
       } catch (error) {
-        console.error('Erro ao atualizar cliente:', error);
-        throw error;
+        notifyError('Erro ao atualizar cliente:', error.response?.data?.message || error);
+        throw error.response?.data?.message || error;
       }
     },
 
     async deleteClient(id) {
       const { api } = useApi();
+      const { notifyError, notifySuccess } = useToast();
+
       try {
         await api.delete(`clients/${id}`);
         this.clients = this.clients.filter(client => client.id !== id);
+        notifySuccess('Contato deletado com sucesso');
       } catch (error) {
-        console.error('Erro ao excluir cliente:', error);
-        throw error;
+        notifyError('Erro ao exluir cliente:', error.response?.data?.message || error);
+        throw error.response?.data?.message || error;
       }
     },
 
     async callClient(id) {
       const { api } = useApi();
+      const { notifyError, notifyInfo } = useToast();
+
       try {
-        await api.post(`clients/${id}/call`);
+        const response = await api.post(`clients/${id}/call`);
+        notifyInfo(`Chamada em fila de ${response.data.data.from} para ${response.data.data.to}. Status: ${response.data.data.status}`)
       } catch (error) {
-        console.error('Erro ao chamar cliente:', error);
-        throw error;
+        notifyError('Erro ao ligar para cliente:', error.response?.data?.message || error);
+        throw error.response?.data?.message || error;
       }
     },
   },
