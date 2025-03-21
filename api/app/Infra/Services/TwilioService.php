@@ -4,14 +4,14 @@ namespace App\Infra\Services;
 
 use Twilio\Rest\Client;
 
-class VoipService
+class TwilioService
 {
     private Client $twilio;
 
     public function __construct()
     {
-        $sid = env('TWILIO_SID');
-        $token = env('TWILIO_AUTH_TOKEN');
+        $sid = config('services.twilio.sid');
+        $token = config('services.twilio.auth_token');
         $this->twilio = new Client($sid, $token);
     }
 

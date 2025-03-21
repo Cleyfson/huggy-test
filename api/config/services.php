@@ -35,4 +35,10 @@ return [
         'api_url' => env('HUGGY_API_URL'),
         'api_token' => env('HUGGY_API_TOKEN'),
     ],
+
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'auth_token' => env('TWILIO_AUTH_TOKEN'),
+        'phone_number' => env('TWILIO_PHONE_NUMBER'),
+    ],
 ];

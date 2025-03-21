@@ -2,14 +2,14 @@
 
 namespace App\Application\UseCases\Client;
 
-use App\Infra\Services\VoipService;
+use App\Infra\Services\TwilioService;
 use App\Domain\Repositories\ClientRepositoryInterface;
 
 class ClientCallUseCase
 {
     public function __construct(
         private ClientRepositoryInterface $repository,
-        private VoipService $voipService
+        private TwilioService $TwilioService
     ) {}
 
     public function execute(int $id): array
@@ -22,7 +22,7 @@ class ClientCallUseCase
 
         $phoneNumber = $client->getMobile();
         
-        return $this->voipService->makeCall($phoneNumber, env('TWILIO_PHONE_NUMBER'));
+        return $this->TwilioService->makeCall($phoneNumber, config('services.twilio.phone_number'));
     }
 
 }
