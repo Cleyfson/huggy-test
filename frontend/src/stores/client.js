@@ -5,6 +5,7 @@ import { useToast } from '@/composables/useToast';
 export const useClientStore = defineStore('clients', {
   state: () => ({
     clients: [],
+    filteredClients: [],
   }),
 
   actions: {
@@ -15,6 +16,7 @@ export const useClientStore = defineStore('clients', {
       try {
         const response = await api.get('clients');
         this.clients = response.data.data;
+        this.filteredClients = response.data.data;
       } catch (error) {
         notifyError('Erro ao buscar clientes:', error.response?.data?.message || error);
       }
@@ -91,5 +93,21 @@ export const useClientStore = defineStore('clients', {
         throw error.response?.data?.message || error;
       }
     },
+
+    filterClients(searchTerm) {
+      if (!searchTerm) {
+        this.filteredClients = this.clients;
+      } else {
+        const term = searchTerm.toLowerCase();
+        this.filteredClients = this.clients.filter(client =>
+          client.name.toLowerCase().includes(term) || 
+          client.email.toLowerCase().includes(term) ||
+          client.phone.toLowerCase().includes(term) ||
+          client.mobile.toLowerCase().includes(term) ||
+          client.district.toLowerCase().includes(term) ||
+          client.state.toLowerCase().includes(term)
+        );
+      }
+    }
   },
 });

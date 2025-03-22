@@ -4,7 +4,7 @@
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <SearchIcon class="h-4 w-4 text-gray-400" />
       </div>
-      <input v-model="search" type="text" placeholder="Buscar contato" class="pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-gray-100 w-72 text-sm focus:ring-2 focus:ring-indigo-500" />
+      <input v-model="searchTerm" type="text" placeholder="Buscar contato" class="pl-10 pr-4 py-2 border border-gray-200 rounded-md bg-gray-100 w-72 text-sm focus:ring-2 focus:ring-indigo-500" />
     </div>
     <div class="flex items-center gap-2">
       <button 
@@ -21,14 +21,15 @@
   </div>
 </template>
 <script setup>
-  import { computed, defineProps, defineEmits } from 'vue'
+  import { ref, watch } from 'vue';
+  import { useClientStore } from '@/stores/client';
   import { SearchIcon, PlusIcon } from 'lucide-vue-next'
   import Report from '@/assets/svg/report.svg';
 
-  const props = defineProps(['modelValue'])
-  const emit = defineEmits(['update:modelValue', 'add'])
-  const search = computed({
-    get: () => props.modelValue,
-    set: (value) => emit('update:modelValue', value)
-  })
+  const searchTerm = ref('');
+  const clientStore = useClientStore();
+
+  watch(searchTerm, (newVal) => {
+    clientStore.filterClients(newVal);
+  });
 </script>

@@ -3,9 +3,9 @@
     <table class="min-w-full divide-y divide-gray-200">
       <ContactTableHeader />
       <tbody class="bg-white">
-        <template v-if="clientStore.clients.length > 0">
+        <template v-if="clientStore.filteredClients.length > 0">
           <ContactTableRow 
-            v-for="client in clientStore.clients" 
+            v-for="client in clientStore.filteredClients" 
             :key="client.id" 
             :client="client"
             @show-details="showClientDetails"
