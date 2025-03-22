@@ -9,16 +9,16 @@
           <h2 class="text-lg font-medium text-gray-800">{{ client.name }}</h2>
         </div>
         <div class="flex items-center gap-7">
-          <button @click="callContact(client.id)" class="text-gray-400 hover:text-gray-500">
+          <button @click="callContact(client.id)" class="text-gray-400 hover:text-gray-500" id="call-button">
             <PhoneCallIcon class="h-5 w-5" />
           </button>
-          <button @click="$emit('delete', client)" class="p-1">
+          <button @click="$emit('delete', client)" class="p-1" id="delete-button">
             <img :src="Trash" alt="trash can icon">
           </button>
-          <button @click="$emit('edit', client)" class="p-1">
+          <button @click="$emit('edit', client)" class="p-1" id="edit-button">
             <img :src="Edit" alt="pen icon">
           </button>
-          <button @click="$emit('close')" class="text-gray-400 hover:text-gray-500">
+          <button @click="$emit('close')" class="text-gray-400 hover:text-gray-500" id="close-button">
             <XIcon class="h-5 w-5" />
           </button>
         </div>
