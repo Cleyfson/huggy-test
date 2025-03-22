@@ -6,15 +6,21 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactView.vue'),
       meta: { requiresAuth: true },
     },
     {
-      path: '/',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      path: '/insights',
+      name: 'insights',
+      component: () => import('../views/InsightView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/logout',
