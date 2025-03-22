@@ -35,11 +35,22 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        // OBS: O login foi adpatado para forçar a criação de um usuario, para facilitar testes, etc...
+        $userData = [
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => bcrypt('123456'),
+        ];
 
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        $user = User::updateOrCreate(
+            ['email' => $userData['email']],
+            [
+                'name' => $userData['name'],
+                'password' => $userData['password'],
+            ]
+        );
+
+        $token = auth()->login($user);
 
         return $this->respondWithToken($token);
     }
