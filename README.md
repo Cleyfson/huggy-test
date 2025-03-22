@@ -22,8 +22,8 @@ Antes de rodar o projeto, é necessário ter as seguintes ferramentas instaladas
 Primeiro, clone o repositório para sua máquina local:
 
 ```bash
-  git clone <url-do-repositorio>
-  cd <nome-do-repositorio>
+  git https://github.com/Cleyfson/huggy-test
+  cd huggy-test
 ```
 
 ## 2. Execute o arquivo setup.sh que está no root do projeto
@@ -45,8 +45,8 @@ chmod +x setup.sh
 Primeiro, clone o repositório para sua máquina local:
 
 ```bash
-git clone <url-do-repositorio>
-cd <nome-do-repositorio>
+git clone https://github.com/Cleyfson/huggy-test
+cd huggy-test
 ```
 
 ## 2. Configuração do Ambiente
