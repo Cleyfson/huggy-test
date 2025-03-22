@@ -6,13 +6,14 @@ use App\Domain\Entities\Client;
 use App\Domain\Repositories\ClientRepositoryInterface;
 use App\Infra\Services\HuggyService;
 use App\Infra\Services\SendEmailService;
+use App\Events\ClientRegistered;
 
 class ClientRegisterUseCase
 {
     public function __construct(
         private ClientRepositoryInterface $repository,
         private HuggyService $huggyService,
-        private SendEmailService $emailService
+        private SendEmailService $emailService,
     ) {}
    
     public function execute(array $data): Client
@@ -53,6 +54,8 @@ class ClientRegisterUseCase
             ],
             delayMinutes: 30
         );
+
+        event(new ClientRegistered($client));
 
         return $this->repository->create($client);
     }
