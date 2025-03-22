@@ -19,7 +19,7 @@ class TwilioService
     {
         try {
             $call = $this->twilio->calls->create(
-                '+'. $to,
+                $to,
                 $from,
                 [
                     'url' => 'https://handler.twilio.com/twiml/EH6d6ab0f8fe67c480bb97b6415eadcc1e'

@@ -26,6 +26,7 @@ class Client
     public function getEmail(): string { return $this->email; }
     public function getPhone(): ?string { return $this->phone; }
     public function getMobile(): ?string { return $this->mobile; }
+    public function getMobileTwilioFormated(): ?string { return '+' . $this->mobile; }
     public function getAddress(): ?string { return $this->address; }
     public function getState(): ?string { return $this->state; }
     public function getDistrict(): ?string { return $this->district; }
