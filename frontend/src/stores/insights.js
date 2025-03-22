@@ -17,7 +17,7 @@ export const useInsightStore = defineStore('insights', {
         const response = await api.get('/insights/clients/district');
         this.insights_district = response.data.data;
       } catch (error) {
-        notifyError('Erro ao buscar clientes:', error.response?.data?.message || error);
+        notifyError('Erro ao buscar clientes:' + (error.response?.data?.message || error));
       }
     },
 
@@ -29,7 +29,7 @@ export const useInsightStore = defineStore('insights', {
         const response = await api.get('/insights/clients/state');
         this.insights_state = response.data.data;
       } catch (error) {
-        notifyError('Erro ao buscar clientes:', error.response?.data?.message || error);
+        notifyError('Erro ao buscar clientes:' + (error.response?.data?.message || error));
       }
     },
   },

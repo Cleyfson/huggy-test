@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', {
 
         return response.data;
       } catch (error) {
-        notifyError('Erro ao fazer login:', error.response?.data?.message || error);
+        notifyError('Erro ao fazer login:' + (error.response?.data?.message || error));
         throw error.response?.data?.message || error;
       }
     },
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore('auth', {
 
         this.clearToken();
       } catch (error) {
-        notifyError('Erro ao deslogar:', error.response?.data?.message || error);
+        notifyError('Erro ao deslogar:' + (error.response?.data?.message || error));
       }
     },
   },

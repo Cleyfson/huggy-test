@@ -30,7 +30,7 @@ export const useClientStore = defineStore('clients', {
         const response = await api.get(`clients/${id}`);
         return response.data.data;
       } catch (error) {
-        notifyError('Erro ao buscar cliente:', error.response?.data?.message || error);
+        notifyError('Erro ao buscar cliente:' + (error.response?.data?.message || error));
       }
     },
 
@@ -44,7 +44,8 @@ export const useClientStore = defineStore('clients', {
         notifySuccess('Contato criado com sucesso');
         return response.data;
       } catch (error) {
-        notifyError('Erro ao criar cliente:', error.response?.data?.message || error);
+        console.log(error.response.data.message);
+        notifyError('Erro ao criar cliente:' + (error.response?.data?.message || error));
         throw error.response?.data?.message || error;
       }
     },
@@ -62,7 +63,7 @@ export const useClientStore = defineStore('clients', {
         this.fetchClients();
         notifySuccess('Contato atualizado com sucesso');
       } catch (error) {
-        notifyError('Erro ao atualizar cliente:', error.response?.data?.message || error);
+        notifyError('Erro ao atualizar cliente:' + (error.response?.data?.message || error));
         throw error.response?.data?.message || error;
       }
     },
@@ -76,7 +77,7 @@ export const useClientStore = defineStore('clients', {
         this.clients = this.clients.filter(client => client.id !== id);
         notifySuccess('Contato deletado com sucesso');
       } catch (error) {
-        notifyError('Erro ao exluir cliente:', error.response?.data?.message || error);
+        notifyError('Erro ao exluir cliente:' + (error.response?.data?.message || error));
         throw error.response?.data?.message || error;
       }
     },
@@ -89,7 +90,7 @@ export const useClientStore = defineStore('clients', {
         const response = await api.post(`clients/${id}/call`);
         notifyInfo(`Chamada em fila de ${response.data.data.from} para ${response.data.data.to}. Status: ${response.data.data.status}`)
       } catch (error) {
-        notifyError('Erro ao ligar para cliente:', error.response?.data?.message || error);
+        notifyError('Erro ao ligar para cliente:' + (error.response?.data?.message || error));
         throw error.response?.data?.message || error;
       }
     },
