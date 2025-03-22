@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { useApi } from '@/composables/useApi';
+import { useToast } from '@/composables/useToast';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -21,14 +23,18 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(credentials) {
-      try {
-        const { api } = useApi();
-        const response = await api.post('/auth/login', credentials);
+      const { api } = useApi();
+      const { notifyError, notifySuccess } = useToast();
 
+      try {
+        const response = await api.post('/auth/login', credentials);
         this.setToken(response.data.access_token);
+
+        notifySuccess('Login efetuado com sucesso!');
         return response.data;
       } catch (error) {
-        throw error.response?.data?.message || 'Erro no login';
+        notifyError('Erro ao fazer login:', error.response?.data?.message || error);
+        throw error.response?.data?.message || error;
       }
     },
 
