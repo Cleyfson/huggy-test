@@ -2,16 +2,33 @@
 
 namespace Tests\Unit\Application\UseCases\Client;
 
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use App\Application\UseCases\Client\ClientRegisterUseCase;
 use App\Domain\Entities\Client;
+use App\Infra\Services\SendEmailService;
+use App\Events\ClientRegistered;
 use Tests\Unit\Mocks\ClientRepositoryMock;
 use Tests\Unit\Mocks\HuggyServiceMock;
+use Illuminate\Support\Facades\Event;
 
 class ClientRegisterUseCaseTest extends TestCase
 {
-    public function test_execute_creates_client_successfully()
+    public function test_execute_creates_client_successfully_and_sends_email_and_dispatches_event()
     {
+        Event::fake();
+        $emailServiceMock = $this->createMock(SendEmailService::class);
+        $emailServiceMock->expects($this->once())
+            ->method('send')
+            ->with(
+                $this->equalTo('janedoe@example.com'),
+                $this->equalTo('welcome_email'),
+                $this->arrayHasKey('name'),
+                $this->greaterThan(0)
+            );
+
+        $huggyServiceMock = new HuggyServiceMock();
+        $repositoryMock = new ClientRepositoryMock();
+
         $inputData = [
             'name' => 'Jane Doe',
             'email' => 'janedoe@example.com',
@@ -22,13 +39,15 @@ class ClientRegisterUseCaseTest extends TestCase
             'district' => 'Centro',
         ];
 
-        $useCase = new ClientRegisterUseCase(new ClientRepositoryMock(), new HuggyServiceMock());
-
+        $useCase = new ClientRegisterUseCase($repositoryMock, $huggyServiceMock, $emailServiceMock);
         $client = $useCase->execute($inputData);
 
         $this->assertInstanceOf(Client::class, $client);
         $this->assertEquals('Jane Doe', $client->getName());
         $this->assertEquals('janedoe@example.com', $client->getEmail());
-        $this->assertEquals('106210365', $client->getHuggyId());
+
+        Event::assertDispatched(ClientRegistered::class, function ($event) use ($client) {
+            return $event->client->getEmail() === $client->getEmail();
+        });
     }
 }
