@@ -1,17 +1,17 @@
 <template>
   <thead>
     <tr>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider flex items-center">
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider flex items-center">
         Nome
-        <img :src="South" alt="chevron down">
+        <img class="pl-2" :src="South" alt="chevron down">
       </th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
         Email
       </th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
         Telefone
       </th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
       </th>
     </tr>
   </thead>

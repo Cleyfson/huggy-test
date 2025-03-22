@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth';
 import { requireAuth } from './guards/auth';
 
 const router = createRouter({
@@ -14,6 +15,15 @@ const router = createRouter({
       path: '/',
       name: 'login',
       component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      beforeEnter: async (to, from, next) => {
+        const authStore = useAuthStore();
+        await authStore.logout();
+        next({ name: 'login' });
+      },
     },
   ],
 })

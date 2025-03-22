@@ -3,7 +3,7 @@
     <div class="p-4 flex items-center justify-between">
       <slot name="header"></slot>
     </div>
-    <div class="min-h-[720px] border-t border-gray-200">
+    <div class="min-h-[720px]">
       <slot></slot>
     </div>
   </div>

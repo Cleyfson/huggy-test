@@ -21,8 +21,8 @@
       {{ client.phone }}
     </td>
 
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-      <div class="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity gap-2">
+    <td class="pl-6 py-4 whitespace-nowrap text-sm text-gray-500">
+      <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity gap-4">
         <button 
           @click="$emit('edit', client)" 
           class="text-blue-600 hover:text-blue-800"
