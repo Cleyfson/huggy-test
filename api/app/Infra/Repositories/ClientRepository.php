@@ -112,4 +112,22 @@ class ClientRepository implements ClientRepositoryInterface
     {
         DB::table('clients')->where('id', $id)->delete();
     }
+
+    public function getClientsByDistrict(): array
+    {
+        return DB::table('clients')
+            ->select('district', DB::raw('count(*) as total'))
+            ->groupBy('district')
+            ->get()
+            ->toArray();
+    }
+
+    public function getClientsByState(): array
+    {
+        return DB::table('clients')
+            ->select('state', DB::raw('count(*) as total'))
+            ->groupBy('state')
+            ->get()
+            ->toArray();
+    }
 }
