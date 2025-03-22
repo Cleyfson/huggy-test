@@ -22,12 +22,12 @@
 </template>
 
 <script setup>
-    defineProps({
+  defineProps({
     client: {
         type: Object,
         required: true
     }
-    });
+  });
 
-    defineEmits(['cancel', 'confirm']);
+  defineEmits(['cancel', 'confirm']);
 </script>

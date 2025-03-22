@@ -24,13 +24,12 @@ export const useAuthStore = defineStore('auth', {
 
     async login(credentials) {
       const { api } = useApi();
-      const { notifyError, notifySuccess } = useToast();
+      const { notifyError } = useToast();
 
       try {
         const response = await api.post('/auth/login', credentials);
         this.setToken(response.data.access_token);
 
-        notifySuccess('Login efetuado com sucesso!');
         return response.data;
       } catch (error) {
         notifyError('Erro ao fazer login:', error.response?.data?.message || error);
@@ -39,13 +38,15 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async logout() {
+      const { api } = useApi();
+      const { notifyError } = useToast();
+      
       try {
-        const { api } = useApi();
         await api.post('/auth/logout');
 
         this.clearToken();
       } catch (error) {
-        console.error('Erro ao deslogar:', error);
+        notifyError('Erro ao deslogar:', error.response?.data?.message || error);
       }
     },
   },

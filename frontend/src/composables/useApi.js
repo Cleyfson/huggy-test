@@ -11,7 +11,7 @@ export function useApi() {
     (config) => {
       const authStore = useAuthStore();
       if (authStore.token) {
-        config.headers.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3NDI2MDM2ODksImV4cCI6MTc0MjYwNzI4OSwibmJmIjoxNzQyNjAzNjg5LCJqdGkiOiJ2M0x4aWNYUnZ6bjlEZVZjIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.zMnqRFIcOFZ7R0ERKYfhiDE1byeqfc_sIyViEJPy23E`;
+        config.headers.Authorization = `Bearer ${authStore.token}`;
       }
       return config;
     },

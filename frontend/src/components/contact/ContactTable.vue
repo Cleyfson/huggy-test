@@ -53,59 +53,55 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useClientStore } from '@/stores/client';
-import { LucidePlus } from 'lucide-vue-next';
-import ContactTableHeader from './ContactTableHeader.vue';
-import ContactTableRow from './ContactTableRow.vue';
-import ContactDetailsModal from './ContactDetailsModal.vue';
-import DeleteConfirmationModal from './DeleteConfirmationModal.vue';
-import BookOpen from '@/assets/svg/book_open1.svg';
+  import { ref, onMounted } from 'vue';
+  import { useClientStore } from '@/stores/client';
+  import { LucidePlus } from 'lucide-vue-next';
+  import ContactTableHeader from './ContactTableHeader.vue';
+  import ContactTableRow from './ContactTableRow.vue';
+  import ContactDetailsModal from './ContactDetailsModal.vue';
+  import DeleteConfirmationModal from './DeleteConfirmationModal.vue';
+  import BookOpen from '@/assets/svg/book_open1.svg';
 
-const clientStore = useClientStore();
+  const clientStore = useClientStore();
 
-const isDeleteModalOpen = ref(false);
-const clientToDelete = ref(null);
-const isClientModalOpen = ref(false);
-const selectedClient = ref(null);
+  const isDeleteModalOpen = ref(false);
+  const clientToDelete = ref(null);
+  const isClientModalOpen = ref(false);
+  const selectedClient = ref(null);
 
-onMounted(() => {
-  clientStore.fetchClients();
-});
+  onMounted(() => {
+    clientStore.fetchClients();
+  });
 
-const showClientDetails = async (id) => {
-  const client = await clientStore.fetchClient(id);
-  if (client) {
+  const showClientDetails = async (id) => {
+    const client = await clientStore.fetchClient(id);
     selectedClient.value = client;
     isClientModalOpen.value = true;
-  } else {
-    console.error('Cliente não encontrado');
-  }
-};
+  };
 
-const closeClientModal = () => {
+  const closeClientModal = () => {
   isClientModalOpen.value = false;
   selectedClient.value = null;
-};
+  };
 
-const handleDelete = (client) => {
+  const handleDelete = (client) => {
   clientToDelete.value = client;
   isDeleteModalOpen.value = true;
-};
+  };
 
-const cancelDelete = () => {
+  const cancelDelete = () => {
   isDeleteModalOpen.value = false;
   clientToDelete.value = null;
-};
+  };
 
-const confirmDelete = () => {
-  if (clientToDelete.value) {
-    clientStore.deleteClient(clientToDelete.value.id);
-    isDeleteModalOpen.value = false;
-    isClientModalOpen.value = false;
-    clientToDelete.value = null;
-  }
-};
+  const confirmDelete = () => {
+    if (clientToDelete.value) {
+      clientStore.deleteClient(clientToDelete.value.id);
+      isDeleteModalOpen.value = false;
+      isClientModalOpen.value = false;
+      clientToDelete.value = null;
+    }
+  };
 
-defineEmits(['edit', 'add']);
+  defineEmits(['edit', 'add']);
 </script>

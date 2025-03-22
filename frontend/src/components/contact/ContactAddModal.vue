@@ -173,15 +173,12 @@
   })
 
   const onSubmit = async (values) => {
-    try {
-      if (props.contact) {
-        await clientStore.updateClient(props.contact.id, values)
-      } else {
-        await clientStore.createClient(values)
-      }
-      emit('remove')
-    } catch (error) {
-      console.error('Erro ao salvar contato', error)
+    if (props.contact) {
+      await clientStore.updateClient(props.contact.id, values)
+    } else {
+      await clientStore.createClient(values)
     }
+    
+    emit('remove')
   }
 </script>

@@ -34,7 +34,7 @@
 
   const closeModal = () => {
     showAddContactAddModal.value = false;
-    selectedContact.value = {};
+    selectedContact.value = null;
   }
 
   const editContact = (contact) => {

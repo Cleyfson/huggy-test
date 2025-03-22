@@ -56,7 +56,7 @@ export const useClientStore = defineStore('clients', {
         this.clients = this.clients.map(client => 
           client.id === id ? { ...client, ...clientData } : client
         );
-        this.fetchClient();
+        this.fetchClient(id);
         this.fetchClients();
         notifySuccess('Contato atualizado com sucesso');
       } catch (error) {
