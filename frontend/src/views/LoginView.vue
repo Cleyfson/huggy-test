@@ -15,18 +15,20 @@
 <script setup>
   import { useAuthStore } from '@/stores/auth';
   import { useRouter } from 'vue-router';
+  import { useToast } from '@/composables/useToast';
 
   const authStore = useAuthStore();
   const router = useRouter();
+  const { notifyError } = useToast();
 
   const handleLogin = async () => {
-  try {
-    const credentials = { email: 'user@example.com', password: 'senha123' };
-    await authStore.login(credentials);
-    
-    router.push({ name: 'contacts' });
+    try {
+      const credentials = { email: 'user@example.com', password: 'senha123' };
+      await authStore.login(credentials);
+      
+      router.push({ name: 'contact' });
     } catch (error) {
-        console.error('Erro ao fazer login:', error);
+      notifyError('Erro ao fazer login:', error);
     }
   };
 </script>
