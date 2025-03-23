@@ -99,8 +99,6 @@ Backend (Laravel): http://localhost:8000
 
 Frontend (Vue.js): http://localhost:5173
 
-Mailpit: Para visualizar e-mails enviados, acesse http://localhost:8025
-
-## 5. Collection do postman para testes da api
+## 6. Collection do postman para testes da api
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/26530639-4f982cc8-8386-4b30-8021-9bf10d400685?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D26530639-4f982cc8-8386-4b30-8021-9bf10d400685%26entityType%3Dcollection%26workspaceId%3Dd7914fe0-6a0e-4c18-a48b-86acca162e67#?env%5Btest%5D=W3sia2V5IjoidG9rZW4tY29yZS1jbGllbnQiLCJ2YWx1ZSI6IiIsImVuYWJsZWQiOnRydWUsInR5cGUiOiJkZWZhdWx0Iiwic2Vzc2lvblZhbHVlIjoiIiwiY29tcGxldGVTZXNzaW9uVmFsdWUiOiIiLCJzZXNzaW9uSW5kZXgiOjB9XQ==)

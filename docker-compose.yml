@@ -10,11 +10,13 @@ services:
     working_dir: /var/www
     volumes:
       - ./api:/var/www
-      - /var/www/vendor 
+      - /var/www/vendor
     networks:
       - laravel
     ports:
       - "8000:8000"
+    environment:
+      - REDIS_HOST=redis
     command: >
       sh -c "chmod -R 775 storage bootstrap/cache &&
             chown -R www-data:www-data storage bootstrap/cache &&
@@ -58,6 +60,15 @@ services:
     ports:
       - "8025:8025"
       - "1025:1025"
+    networks:
+      - laravel
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
     networks:
       - laravel
 
