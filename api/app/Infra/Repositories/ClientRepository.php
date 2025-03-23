@@ -5,9 +5,14 @@ namespace App\Infra\Repositories;
 use App\Domain\Repositories\ClientRepositoryInterface;
 use App\Domain\Entities\Client;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class ClientRepository implements ClientRepositoryInterface
 {
+    const REDIS_KEY_DISTRICT = 'clients_by_district';
+    const REDIS_KEY_STATE = 'clients_by_state';
+    const REDIS_EXPIRATION = 3600;
+
     public function create(Client $client): Client
     {
         $clientId = DB::table('clients')->insertGetId([
@@ -115,19 +120,39 @@ class ClientRepository implements ClientRepositoryInterface
 
     public function getClientsByDistrict(): array
     {
-        return DB::table('clients')
+        $data = Redis::get(self::REDIS_KEY_DISTRICT);
+        
+        if ($data) {
+            return json_decode($data, true);
+        }
+    
+        $data = DB::table('clients')
             ->select('district', DB::raw('count(*) as total'))
             ->groupBy('district')
             ->get()
             ->toArray();
+    
+        Redis::setex(self::REDIS_KEY_DISTRICT, self::REDIS_EXPIRATION, json_encode($data));
+    
+        return $data;
     }
-
+    
     public function getClientsByState(): array
     {
-        return DB::table('clients')
+        $data = Redis::get(self::REDIS_KEY_STATE);
+        
+        if ($data) {
+            return json_decode($data, true);
+        }
+    
+        $data = DB::table('clients')
             ->select('state', DB::raw('count(*) as total'))
             ->groupBy('state')
             ->get()
             ->toArray();
+    
+        Redis::setex(self::REDIS_KEY_STATE, self::REDIS_EXPIRATION, json_encode($data));
+    
+        return $data;
     }
 }
