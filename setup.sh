@@ -27,7 +27,5 @@ cd ..
 echo "Iniciando os containers..."
 docker-compose up --build -d
 
-echo "Executando migrações..."
-docker exec laravel_app php artisan migrate
-
 echo "Setup concluído!"
+echo "Agora execute './migrate.sh' para rodar as migrações."

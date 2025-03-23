@@ -13,7 +13,7 @@ Antes de rodar o projeto, é necessário ter as seguintes ferramentas instaladas
 
 ### Observações
 
-- O script `setup.sh` automatiza o processo de configuração e execução dos containers, tornando o processo mais simples e rápido. 
+- O script `setup.sh` e `migrate.sh` automatiza o processo de configuração e execução dos containers, tornando o processo mais simples e rápido. 
 - **Certifique-se de preencher as variáveis de ambiente no arquivo `.env`** com as informações corretas, especialmente para integração com a **Huggy** e **Twilio**.
 
 ## Passo a Passo
@@ -26,16 +26,18 @@ Primeiro, clone o repositório para sua máquina local:
   cd huggy-test
 ```
 
-## 2. Execute o arquivo setup.sh que está no root do projeto
+## 2. Execute o arquivo setup.sh e migrate.sh que está no root do projeto
 
 ```bash
 ./setup.sh
+./migrate.sh
 ```
 
-Caso você encontre problemas de permissão ao rodar o `setup.sh`, é possível que o script não tenha permissão de execução. Para corrigir isso, execute o comando abaixo antes de rodá-lo:
+Caso você encontre problemas de permissão ao rodar os arquivos `.sh`, é possível que o script não tenha permissão de execução. Para corrigir isso, execute o comando abaixo antes de rodá-los:
 
 ```bash
 chmod +x setup.sh
+chmod +x migrate.sh
 ```
 
 ## Passo a Passo manual
